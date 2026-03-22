@@ -53,7 +53,7 @@ portless docs.myapp next dev
 # -> http://docs.myapp.localhost:1355
 ```
 
-Wildcard subdomain routing: any subdomain of a registered route routes to that app automatically (e.g. `tenant1.myapp.localhost:1355` routes to the `myapp` app without extra registration).
+By default, only explicitly registered subdomains are routed (strict mode). Use `--wildcard` when starting the proxy to allow any subdomain of a registered route to fall back to that app (e.g. `tenant1.myapp.localhost:1355` routes to the `myapp` app without extra registration).
 
 ## Git Worktrees
 
@@ -152,6 +152,7 @@ portless proxy start             # Start the proxy (port 1355, daemon)
 portless proxy start --https     # Start with HTTP/2 + TLS
 portless proxy start -p 80       # Start on port 80 (requires sudo)
 portless proxy start --foreground  # Start in foreground (for debugging)
+portless proxy start --wildcard  # Allow unregistered subdomains to fall back to parent
 portless proxy stop              # Stop the proxy
 ```
 
@@ -165,6 +166,7 @@ portless proxy stop              # Stop the proxy
 --no-tls                         Disable HTTPS (overrides PORTLESS_HTTPS)
 --foreground                     Run proxy in foreground instead of daemon
 --tld <tld>                      Use a custom TLD instead of .localhost (e.g. test)
+--wildcard                       Allow unregistered subdomains to fall back to parent route
 --app-port <number>              Use a fixed port for the app (skip auto-assignment)
 --force                          Override a route registered by another process
 --name <name>                    Use <name> as the app name
@@ -178,6 +180,7 @@ PORTLESS_PORT=<number>           Override the default proxy port
 PORTLESS_APP_PORT=<number>       Use a fixed port for the app (same as --app-port)
 PORTLESS_HTTPS=1                 Always enable HTTPS
 PORTLESS_TLD=<tld>               Use a custom TLD (e.g. test; default: localhost)
+PORTLESS_WILDCARD=1              Allow unregistered subdomains to fall back to parent route
 PORTLESS_SYNC_HOSTS=1            Auto-sync /etc/hosts (auto-enabled for custom TLDs)
 PORTLESS_STATE_DIR=<path>        Override the state directory
 
